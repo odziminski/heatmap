@@ -1,50 +1,21 @@
-function startRecording() {
+function logMouse(e){
+    console.log("X: ", e.clientX + " Y: " + e.clientY);
+    let pos = e;
+    let dot = document.createElement('div');
+    dot.className = "dot";
+    dot.id = "dot";
 
-    document.querySelector('#mouse-position').addEventListener('mousemove', (e) => {
-        console.log("X: ", e.clientX + " Y: " + e.clientY);
-        var pos = e;
-        var dot;
-        dot = document.createElement('div');
-        dot.className = "dot";
-        dot.id = "dot";
-
-        dot.style.left = pos.x + "px";
-        dot.style.top = pos.y + "px";
-        document.body.appendChild(dot);
-
-    }, );
-
+    dot.style.left = pos.x - 3 + "px";
+    dot.style.top = pos.y -3 + "px";
+    document.body.appendChild(dot);
 }
 
-function stopRecording() {
-
-    document.querySelector('#mouse-position').RemoveEventListener('mousemove', (e));
-
-}
-document.addEventListener('DOMContentLoaded', function () {
-    var start = document.getElementById('startRecording');
-    start.addEventListener('click', function () {
-        startRecording();
-    });
-    var stop = document.getElementById('stopRecording');
-    stop.addEventListener('click', function () {
-        stopRecording();
-    });
+let start = document.getElementById('startRecording');
+start.addEventListener('click', function () {
+    document.querySelector('#mouse-position').addEventListener('mousemove', logMouse);
 });
 
-
-/*document.addEventListener('DOMContentLoaded', function () {
-    document.querySelector('#mouse-position').addEventListener('mousemove', (e) => {
-        console.log("X: ", e.clientX + " Y: " + e.clientY);
-        var pos = e;
-        var dot;
-        dot = document.createElement('div');
-        dot.className = "dot";
-        dot.id = "dot";
-
-        dot.style.left = pos.x + "px";
-        dot.style.top = pos.y + "px";
-        document.body.appendChild(dot);
-
-    }, );
-}); */
+let stop = document.getElementById('stopRecording');
+stop.addEventListener('click', function () {
+    document.querySelector('#mouse-position').removeEventListener('mousemove', logMouse);
+});

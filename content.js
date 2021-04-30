@@ -25,12 +25,12 @@ if(document.body.id !== "heatMapPopupBody"){
 
     heatMapStop.setAttribute('id', 'heatMapStop');
 
-    let heatMapChildIndex = 1;
-    for(let i=1; i<pageHeight/50; i++){
-        for(let j=1; j<pageWidth/50; j++){
+    let heatMapChildIndex = 0;
+    for(let i=1; i<pageHeight/25; i++){
+        for(let j=1; j<pageWidth/25; j++){
             let heatMapChild = document.createElement('div');
             heatMapChild.setAttribute("id", ''+heatMapChildIndex);
-            heatMapChild.style.cssText = 'width:50px; height: 50px; background: transparent;';
+            heatMapChild.style.cssText = 'width:25px; height: 25px; background: transparent;';
             heatMapContainer.appendChild(heatMapChild);
             heatMapChildIndex++;
         }
@@ -47,28 +47,13 @@ if(document.body.id !== "heatMapPopupBody"){
     document.body.appendChild(heatMapStop);
     document.body.appendChild(heatMapContainer);
     heatMapStop.addEventListener('click', function () {
-
-        var arrayOfMaxValuesIndexes = [];
         for (let i = 0; i < heatMapChildren.length; i++) {
             heatMapChildren[i].onmouseover = function(){};
         }
-
-        heatMapStop.addEventListener('click', function () {
-            for (let i = 0; i < heatMapChildren.length; i++) {
-                heatMapChildren[i].onmouseover = function(){};
-            }
-
-            for(let j = 0; j < 5; j++){
-               var indexOfMaxValue = numberOfVisit.indexOf(Math.max.apply(window,numberOfVisit))
-                arrayOfMaxValuesIndexes[j] = indexOfMaxValue;
-                console.log(indexOfMaxValue);
-            }
-
-            document.getElementById(''+indexOfMaxValue+1).style.backgroundColor = 'red';
-
-
+        for(let j = 0; j < 5; j++){
+            const indexOfMaxValue = numberOfVisit.indexOf(Math.max.apply(window,numberOfVisit))
+            console.log(indexOfMaxValue);
+            document.getElementById(''+indexOfMaxValue).style.cssText = 'background-color:red; opacity: .3; height: 25px; width: 25px;';
+        }
     });
-});
-
-    
 }

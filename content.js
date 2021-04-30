@@ -37,7 +37,7 @@ if(document.body.id !== "heatMapPopupBody"){
     }
 
     const heatMapChildren = heatMapContainer.childNodes;
-    numberOfVisit = new Array(heatMapChildren.length).fill(0);
+    var numberOfVisit = new Array(heatMapChildren.length).fill(0);
     for (let i = 0; i < heatMapChildren.length; i++) {
         heatMapChildren[i].onmouseover = function () {
             numberOfVisit[i]++;
@@ -47,8 +47,28 @@ if(document.body.id !== "heatMapPopupBody"){
     document.body.appendChild(heatMapStop);
     document.body.appendChild(heatMapContainer);
     heatMapStop.addEventListener('click', function () {
+
+        var arrayOfMaxValuesIndexes = [];
         for (let i = 0; i < heatMapChildren.length; i++) {
             heatMapChildren[i].onmouseover = function(){};
         }
+
+        heatMapStop.addEventListener('click', function () {
+            for (let i = 0; i < heatMapChildren.length; i++) {
+                heatMapChildren[i].onmouseover = function(){};
+            }
+
+            for(let j = 0; j < 5; j++){
+               var indexOfMaxValue = numberOfVisit.indexOf(Math.max.apply(window,numberOfVisit))
+                arrayOfMaxValuesIndexes[j] = indexOfMaxValue;
+                console.log(indexOfMaxValue);
+            }
+
+            document.getElementById(''+indexOfMaxValue+1).style.backgroundColor = 'red';
+
+
     });
+});
+
+    
 }

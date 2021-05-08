@@ -1,8 +1,8 @@
 let heatMapContainer = document.createElement('div');
+heatMapContainer.setAttribute('id', 'heat-map-container');
 let heatMapStop = document.createElement('div');
-let body = document.body;
-let pageHeight = body.clientHeight;
-let pageWidth = body.clientWidth;
+let pageHeight = document.body.clientHeight;
+let pageWidth = document.body.clientWidth;
 
 if(document.body.id !== "heatMapPopupBody"){
     heatMapContainer.style.cssText = 'position:absolute;' +
@@ -24,36 +24,49 @@ if(document.body.id !== "heatMapPopupBody"){
         'z-index:2147483647;';
 
     heatMapStop.setAttribute('id', 'heatMapStop');
+    document.body.appendChild(heatMapStop);
+    document.body.appendChild(heatMapContainer);
 
-    let heatMapChildIndex = 0;
+    let indexOfHeatMapChild = 0;
     for(let i=1; i<pageHeight/25; i++){
         for(let j=1; j<pageWidth/25; j++){
             let heatMapChild = document.createElement('div');
-            heatMapChild.setAttribute("id", ''+heatMapChildIndex);
+            heatMapChild.setAttribute("id", ''+indexOfHeatMapChild);
             heatMapChild.style.cssText = 'width:25px; height: 25px; background: transparent;';
             heatMapContainer.appendChild(heatMapChild);
-            heatMapChildIndex++;
+            indexOfHeatMapChild++;
         }
     }
 
     const heatMapChildren = heatMapContainer.childNodes;
-    var numberOfVisit = new Array(heatMapChildren.length).fill(0);
+    numberOfEntries = new Array(heatMapChildren.length).fill(0);
     for (let i = 0; i < heatMapChildren.length; i++) {
-        heatMapChildren[i].onmouseover = function () {
-            numberOfVisit[i]++;
-            console.log(JSON.stringify(numberOfVisit));
+        heatMapChildren[i].onmouseover = () => {
+            numberOfEntries[i]++;
         }
     }
-    document.body.appendChild(heatMapStop);
-    document.body.appendChild(heatMapContainer);
+
     heatMapStop.addEventListener('click', function () {
         for (let i = 0; i < heatMapChildren.length; i++) {
-            heatMapChildren[i].onmouseover = function(){};
+            heatMapChildren[i].onmouseover = () => {};
         }
-        for(let j = 0; j < 5; j++){
-            const indexOfMaxValue = numberOfVisit.indexOf(Math.max.apply(window,numberOfVisit))
-            console.log(indexOfMaxValue);
-            document.getElementById(''+indexOfMaxValue).style.cssText = 'background-color:red; opacity: .3; height: 25px; width: 25px;';
+        let sortedNumberOfEntries = [...numberOfEntries].sort((a, b) => b - a);
+        for(let i = 0; i < 20; i++){
+            let mostEntries = sortedNumberOfEntries[i];
+            let indexesOfMostEntries = [];
+            let index = -1;
+            while ((index = numberOfEntries.indexOf(mostEntries, index+1)) !== -1){
+                indexesOfMostEntries.push(index);
+            }
+            indexesOfMostEntries.forEach(item => {
+                document.getElementById(''+item).style.cssText =
+                    'background: red;' +
+                    'opacity: .2;' +
+                    'width: 25px;' +
+                    'height: 25px';
+            });
+            indexesOfMostEntries = [];
         }
+        document.getElementById('heat-map-container').style.backgroundColor = 'rgba(0,0,0,.2)';
     });
 }

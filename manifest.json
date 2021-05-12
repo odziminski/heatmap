@@ -18,6 +18,9 @@
 	},
 	"permissions": [
 		"tabs",
-		"identity"
+		"identity",
+		"notifications",
+		"http://*/",
+		"https://*/"
 	]
 }

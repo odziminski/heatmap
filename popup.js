@@ -11,9 +11,9 @@ document.getElementById('startRecording').addEventListener('click', function (){
     console.log('Start');
 })
 
-document.getElementById('stopRecording').onclick = () => {
+document.getElementById('stopRecording').addEventListener('click', function (){
     chrome.tabs.executeScript(null,{
         file: 'stop.js'
     });
     console.log('Stop');
-}
+})
